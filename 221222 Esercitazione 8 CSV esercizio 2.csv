@@ -1,0 +1,13 @@
+<!--Eserctazione parte 2 richiesta 3 -->
+
+idoperatore,nome,cognome,reparto,anzianità,livello,oreextra,valutazione
+01,Aaa,Bbb,Officina,4,4,"16,75","La risorsa presenta un alto potenziale\nSi deve prevedere un corso di formazione in lappatura"
+02,Ccc,Ddd,Officina,3,4,10.25,
+03,Eee,Fff,"Rettifica,Lappatura",10,6,25.85,
+04,Ccc,Ggg,Rettifica,8,5,2.5,
+05,Hhh,Iii,Rettifica,4,4,,
+06,Lll,Bbb,"Finizione,Rettifica",5,5,,
+07,Mmm,Nnn,Finizione,2,3,8.75,
+08,Ooo,Fff,Lappatura,5,6,12.55,
+09,Ppp,Qqq,Metrologia,6,6,20.45,"Lanciare sul progetto ""riduzione rebut"""
+10,Rrr,Sss,Imballaggio,3,3,0.75,

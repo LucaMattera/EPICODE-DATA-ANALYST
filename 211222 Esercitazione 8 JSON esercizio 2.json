@@ -1,0 +1,21 @@
+<!--Esercitazione parte 2 richiesta 2-->
+
+{
+"azienda":"Neoceram",
+"settore":"metalmeccanico",
+"fatturato":10000000,
+"articolovenduti":2690,
+"clienti":[{"cliente":"Xxx", "settore":["farmaceutico", "alimentare"]},
+           {"cliente":"Yyy", "settore":"alimentare"},
+           {"cliente":"Zzz", "settore":"siderurgico"}
+          ],
+"funzioni":{"funzione1":"commerciale", "funzione2":"ufficiotecnico", "funzione3":"produzione", "funzione4":"metrologia", "funzione5":"direzione"},
+"commerciale":{"responsabile":"FT", "operativi":["AG", "SC", "RT"]},
+"uffciotecnico":{"responsabile":"AS", "operativi":["FM", "FR", "OP"]},
+"produzione":[{"reparto":"officina", "responsabile":"MM", "operativi":["GU", "DG", "YF"]},
+              {"reparto":"rettifica", "responsabile":"VR", "operativi":["HL", "DM", "RB"]},
+              {"reparto":"finizione", "responsabile":"AA", "operativi":["GA", "SR", "DC"]}
+             ],
+"metrologia":{"responsabile":"DP", "operativi":["LT", "LC"]},
+"direzione":{"responsabile":"ER", "operativi":["LM", "AR", "RM"]}
+}

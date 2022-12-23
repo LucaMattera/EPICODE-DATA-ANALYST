@@ -1,0 +1,44 @@
+<!--Esercitazione parte 2 richiesta 1-->
+
+<finalemondiali>
+  <stadio nome="Luisal">
+    <capienza>80.000</capienza>
+  </stadio>
+  <paese>Qatar</paese>
+  <data>18-12-2022</data>
+  <orario>16:00</orario>
+  <squadre>
+    <squadra1>francia</squadra1>
+    <moduloformazione>4-2-3-1</moduloformazione>
+    <formazionefrancia>
+      <portiere ruolo="capitano">Lloris</portiere>
+      <difensori>Koundé, Varane, Upamecano, Hernandez</difensori>
+      <centrocampisti>Tchouameni, Rabiot, Dembele, Griezmann, Mbappe</centrocampisti>
+      <attaccanti>Giroud</attaccanti>
+    </formazionefrancia>
+    <squadra2>argentina</squadra2>
+    <moduloformazione>3-5-2</moduloformazione>
+    <formazioneargentina>
+      <portiere>Martinez</portiere>
+      <difensori>Romero, Otamendi, Martinez</difensori>
+      <centrocampisti>Molina, De Paul, Fernandez, Mac Allister, Acuna</centrocampisti>
+      <attaccanti>Messi, Alvarez</attaccanti>
+    </formazioneargentina>
+  </squadre>
+  <arbitro nazionalità="polacca">Marciniak</arbitro>
+  <risultato vincitore="argentina">
+    <primotempo risultato="0-2" />
+    <secondotempo risultato="2-2" />
+    <supplementari risultato="3-3" />
+    <rigori risultato="2-4" />
+  </risultato>
+  <marcatori>
+    <scorerfrancia>Mbappe</scorerfrancia>
+    <scorerargentina>Messi, Di Maria</scorerargentina>
+  </marcatori>
+  <sostituzioni>
+    <cambifrancia>7</cambifrancia>
+    <cambiargentina>5</cambiargentina>
+  </sostituzioni>
+  <cartellini ammonizioni="3" />
+</finalemondiali>
