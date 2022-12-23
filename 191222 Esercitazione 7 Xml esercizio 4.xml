@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cd>
+	<casadiscografica>Sony Music</casadiscografica>
+	<numerocanzoni>3</numerocanzoni>
+	<annopubblicazione>2019</annopubblicazione>
+	<canzone1 categoria="dance">
+		<nome>Sss</nome>
+		<artista>Xxx</artista>
+		<durata>02:30</durata>
+	</canzone1>
+	<canzone2 categoria="pop">
+		<nome>Ttt</nome>
+		<artista>Yyy</artista>
+		<durata>03:30</durata>
+	</canzone2>
+	<canzone3 categoria="rock">
+		<nome>Uuu</nome>
+		<artista>Zzz</artista>
+		<durata>04:30</durata>
+	</canzone3>
+</cd>
