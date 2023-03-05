@@ -1,0 +1,84 @@
+-- creazione e utilizzo del database Costing aziendale --
+create database Costing_aziendale;
+use Costing_aziendale;
+-- creazione delle tabelle del database di partenza --
+create table centri_costo (id_centro_costo int not null primary key, descrizione varchar(45));
+insert into centri_costo (id_centro_costo, descrizione) values (1, 'diretti'), (2, 'indiretti');
+select * from centri_costo;
+-- create table settore_industriale (id_settore int not null primary key, descrizione varchar(45)); --
+insert into settore_industriale (id_settore, descrizione) values (1, 'pharma'), (2, 'food'), (3, 'chimico');
+select * from settore_industriale;
+create table articoli (codice_articolo varchar(45) not null primary key, descrizione varchar(45), costo_materiale_unitario int);
+insert into articoli (codice_articolo, descrizione, costo_materiale_unitario) values ('YYY1', 'pompa', 100), ('YYY2', 'pompa', 150), ('YYY3', 'pompa', 170), ('YYY4', 'pompa', 90), ('YYY5', 'pistone', 40), ('YYY6', 'pistone', 50), ('YYY7', 'pistone', 60), ('YYY8', 'macchina', 5000), ('YYY9', 'macchina', 6000), ('YYY10', 'macchina', 8000);
+select * from articoli;
+create table clienti (id_cliente int not null primary key, nome_cliente varchar(45), id_settore int, foreign key (id_settore) references settore_industriale (id_settore));
+insert into clienti (id_cliente, nome_cliente, id_settore) values (1, 'XXX1', 1), (2, 'XXX2', 1), (3, 'XXX3', 2), (4, 'XXX4', 3), (5, 'XXX5', 2), (6, 'XXX6', 2), (7, 'XXX7', 1), (8, 'XXX8', 1), (9, 'XXX9', 1), (10, 'XXX10', 3);
+select * from clienti;
+create table personale (id_dipendente int not null primary key, nome varchar(45), mansione varchar(45), costo int, id_centro_costo int, foreign key (id_centro_costo) references centri_costo (id_centro_costo));
+insert into personale (id_dipendente, nome, mansione, costo, id_centro_costo) values (1, 'SSS1', 'operaio', 25000, 1), (2, 'SSS2', 'operaio', 26000, 1), (3, 'SSS3', 'operaio', 35000, 1), (4, 'SSS4', 'responsabile', 40000, 2), (5, 'SSS5', 'commerciale', 40000, 2), (6, 'SSS6', 'acquisti', 28000, 2), (7, 'SSS7', 'qualita', 38000, 2), (8, 'SSS8', 'magazzino', 20000, 1), (9, 'SSS9', 'magazzino', 24000, 1), (10, 'SSS10', 'magazzino', 25000, 1);
+select * from personale;
+create table macchinari (id_macchinario int not null primary key, descrizione varchar(45), ammortamento int, id_centro_costo int, foreign key (id_centro_costo) references centri_costo (id_centro_costo));
+insert into macchinari (id_macchinario, descrizione, ammortamento, id_centro_costo) values (1, 'rettifica', 20000, 1), (2, 'rettifica', 25000, 1), (3, 'lappatrice', 8000, 1), (4, 'saldatrice', 2000, 1);
+select * from macchinari;
+create table driver_ripartizione (id_driver int not null primary key, descrizione varchar(45), id_centro_costo int, foreign key (id_centro_costo) references centri_costo (id_centro_costo));
+insert into driver_ripartizione (id_driver, descrizione, id_centro_costo) values (1, 'quantita', 1), (2, 'fatturato', 2);
+select * from driver_ripartizione;
+-- create table vendite (codice_articolo varchar(45), id_cliente int, quantita int, prezzo_unitario int, data_ordine date, data_spedizione date, foreign key (codice_articolo) references articoli (codice_articolo), foreign key (id_cliente) references clienti (id_cliente)); --
+insert into vendite (codice_articolo, id_cliente, quantita, prezzo_unitario, data_ordine, data_spedizione) values ('YYY1', 1, 18, 5500, '2021-01-05', '2021-02-07'), ('YYY2', 2, 15, 5800, '2021-03-02', '2021-04-05'), ('YYY3', 3, 12, 5600, '2021-04-03', '2021-05-08'), ('YYY4', 4, 7, 5200, '2021-05-04', '2021-06-10'), ('YYY5', 5, 14, 3400, '2021-07-01', '2021-08-18'), ('YYY6', 6, 8, 3800, '2021-09-25', '2021-10-20'), ('YYY7', 7, 3, 3900, '2021-10-13', '2021-11-21'), ('YYY8', 8, 3, 20000, '2021-11-04', '2021-12-17'), ('YYY9', 9, 9, 12000, '2021-01-08', '2021-02-09'), ('YYY10', 10, 7, 32000, '2021-05-10', '2021-06-20');
+select * from vendite;
+-- creazione delle tabelle relazionali per il calcolo dei driver di ripartizione e dei costi --
+select codice_articolo, quantita, prezzo_unitario, (quantita * prezzo_unitario) as fatturato from vendite;
+select id_centro_costo, sum(costo) from personale group by id_centro_costo;
+create table costo_totale_per_centro_costo (id_centro_costo int, costo_totale int, foreign key (id_centro_costo) references centri_costo (id_centro_costo));
+insert into costo_totale_per_centro_costo (id_centro_costo, costo_totale) values (1, 155000), (2, 146000);
+select * from costo_totale_per_centro_costo;
+select codice_articolo, quantita from vendite;
+create table quantita_totale_per_prodotto (codice_articolo varchar(45), quantita_totale int);
+insert into quantita_totale_per_prodotto (codice_articolo, quantita_totale) values ('YYY1', 18), ('YYY2', 15), ('YYY3', 12), ('YYY4', 7), ('YYY5', 14), ('YYY6', 8), ('YYY7', 3), ('YYY8', 3), ('YYY9', 9), ('YYY10', 7);
+select * from quantita_totale_per_prodotto;
+create table fatturato (codice_articolo varchar(45), fatturato int, foreign key (codice_articolo) references vendite (codice_articolo));
+insert into fatturato (codice_articolo, fatturato) values ('YYY1', 99000), ('YYY2', 87000), ('YYY3', 67200), ('YYY4', 36400), ('YYY5', 47600), ('YYY6', 30400), ('YYY7', 11700), ('YYY8', 60000), ('YYY9', 108000), ('YYY10', 224000);
+select * from fatturato;
+select codice_articolo, id_cliente from vendite;
+select id_cliente, fatturato from vendite join fatturato on vendite.codice_articolo=fatturato.codice_articolo;
+create table fatturato_per_cliente (id_cliente int, fatturato int, foreign key (id_cliente) references vendite (id_cliente));
+insert into fatturato_per_cliente (id_cliente, fatturato) values (1, 99000), (2, 87000), (3, 67200), (4, 36400), (5, 47600), (6, 30400), (7, 11700), (8, 60000), (9, 108000), (10, 224000);
+select * from fatturato_per_cliente;
+select id_settore, fatturato from fatturato_per_cliente inner join clienti on fatturato_per_cliente.id_cliente=clienti.id_cliente;
+create table fatturato_per_settore (id_settore int, fatturato int, foreign key (id_settore) references settore_industriale (id_settore));
+insert into fatturato_per_settore (id_settore, fatturato) values (1, 99000), (1, 87000), (2, 67200), (3, 36400), (2, 47600), (2, 30400), (1, 11700), (1, 60000), (1, 108000), (3, 224000);
+select * from fatturato_per_settore;
+select sum(quantita_totale) from quantita_totale_per_prodotto;
+select codice_articolo, quantita_totale/(select sum(quantita_totale) from quantita_totale_per_prodotto)*costo_totale from (quantita_totale_per_prodotto, costo_totale_per_centro_costo) where id_centro_costo=1;
+create table costo_totale_diretto_per_prodotto (codice_articolo varchar(45), costo_totale_diretto double);
+insert into costo_totale_diretto_per_prodotto (codice_articolo, costo_totale_diretto) values ('YYY1', 29062.50), ('YYY2', 24218.75), ('YYY3', 19375.00), ('YYY4', 11302.08), ('YYY5', 22604.17), ('YYY6', 12916.67), ('YYY7', 4843.75), ('YYY8', 4843.75), ('YYY9', 14531.25), ('YYY10', 11302.08);
+select * from costo_totale_diretto_per_prodotto;
+select codice_articolo, quantita_totale/(select sum(quantita_totale) from quantita_totale_per_prodotto)*costo_totale from (quantita_totale_per_prodotto, costo_totale_per_centro_costo) where id_centro_costo=2;
+create table costo_totale_indiretto_per_prodotto (codice_articolo varchar(45), costo_totale_indiretto double);
+insert into costo_totale_indiretto_per_prodotto (codice_articolo, costo_totale_indiretto) values ('YYY1', 27375.00), ('YYY2', 22812.50), ('YYY3', 18250.00), ('YYY4', 10645.83), ('YYY5', 21291.67), ('YYY6', 12166.67), ('YYY7', 4562.50), ('YYY8', 4562.50), ('YYY9', 13687.50), ('YYY10', 10645.83);
+select * from costo_totale_indiretto_per_prodotto;
+select codice_articolo, quantita_totale/(select sum(quantita_totale) from quantita_totale_per_prodotto)*(select sum(ammortamento) from macchinari) from (quantita_totale_per_prodotto, macchinari);
+create table costo_totale_macchinari_per_prodotto (codice_articolo varchar(45), costo_totale_macchinari double);
+insert into costo_totale_macchinari_per_prodotto (codice_articolo, costo_totale_macchinari) values ('YYY1', 10312.50), ('YYY2', 8593.75), ('YYY3', 6875.00), ('YYY4', 4010.42), ('YYY5', 8020.83), ('YYY6', 4583.33), ('YYY7', 1718.75), ('YYY8', 1718.75), ('YYY9', 5156.25), ('YYY10', 4010.42);
+select * from costo_totale_macchinari_per_prodotto;
+select (costo_totale_diretto)+(costo_totale_indiretto) from costo_totale_diretto_per_prodotto join costo_totale_indiretto_per_prodotto on costo_totale_diretto_per_prodotto.codice_articolo=costo_totale_indiretto_per_prodotto.codice_articolo;
+create table costo_totale_diretto_e_indiretto_per_prodotto (codice_articolo varchar(45), costo_totale_dir_indir double);
+insert into costo_totale_diretto_e_indiretto_per_prodotto (codice_articolo, costo_totale_dir_indir) values ('YYY1', 56437.50), ('YYY2', 47031.25), ('YYY3', 37625.00), ('YYY4', 21947.91), ('YYY5', 43895.84), ('YYY6', 25083.34), ('YYY7', 9406.25), ('YYY8', 9406.25), ('YYY9', 28218.75), ('YYY10', 21947.91);
+select * from costo_totale_diretto_e_indiretto_per_prodotto;
+select (costo_totale_dir_indir)+(costo_totale_macchinari) from costo_totale_diretto_e_indiretto_per_prodotto join costo_totale_macchinari_per_prodotto on costo_totale_diretto_e_indiretto_per_prodotto.codice_articolo=costo_totale_macchinari_per_prodotto.codice_articolo;
+create table costo_totale_dir_indir_macc_per_prodotto (codice_articolo varchar(45), costo_totale_dir_indir_macch double);
+insert into costo_totale_dir_indir_macc_per_prodotto (codice_articolo, costo_totale_dir_indir_macch) values ('YYY1', 66750.00), ('YYY2', 55625.00), ('YYY3', 44500.00), ('YYY4', 25958.33), ('YYY5', 51916.67), ('YYY6', 29666.67), ('YYY7', 11125.00), ('YYY8', 11125.00), ('YYY9', 33375.00), ('YYY10', 25958.33);
+select * from costo_totale_dir_indir_macc_per_prodotto;
+select (costo_materiale_unitario)*(quantita_totale) from articoli join quantita_totale_per_prodotto on articoli.codice_articolo=quantita_totale_per_prodotto.codice_articolo;
+create table costo_totale_materiale_per_prodotto (codice_articolo varchar(45), costo_totale_materiale int);
+insert into costo_totale_materiale_per_prodotto (codice_articolo, costo_totale_materiale) values ('YYY1', 1800), ('YYY2', 2250), ('YYY3', 2040), ('YYY4', 630), ('YYY5', 560), ('YYY6', 400), ('YYY7', 180), ('YYY8', 15000), ('YYY9', 54000), ('YYY10', 56000);
+select * from costo_totale_materiale_per_prodotto;
+select (costo_totale_dir_indir_macch)+(costo_totale_materiale) from costo_totale_dir_indir_macc_per_prodotto join costo_totale_materiale_per_prodotto on costo_totale_dir_indir_macc_per_prodotto.codice_articolo=costo_totale_materiale_per_prodotto.codice_articolo;
+create table costo_totale_assoluto_per_prodotto (codice_articolo varchar(45), costo_totale_assoluto double);
+insert into costo_totale_assoluto_per_prodotto (codice_articolo, costo_totale_assoluto) values ('YYY1', 68550.00), ('YYY2', 57875.00), ('YYY3', 46540.00), ('YYY4', 26588.33), ('YYY5', 52476.67), ('YYY6', 30066.67), ('YYY7', 11305.00), ('YYY8', 26125.00), ('YYY9', 87375.00), ('YYY10', 81958.33);
+-- calcolo dell'output di progetto ovvero la marginalità per prodotto --
+select (fatturato)-(costo_totale_assoluto) from fatturato join costo_totale_assoluto_per_prodotto on fatturato.codice_articolo=costo_totale_assoluto_per_prodotto.codice_articolo;
+create table margine_per_prodotto (codice_articolo varchar(45), margine double);
+insert into margine_per_prodotto (codice_articolo, margine) values ('YYY1', 30450.00), ('YYY2', 29125.00), ('YYY3', 20660.00), ('YYY4', 9811.67), ('YYY5', -4876.67), ('YYY6', 333.33), ('YYY7', 395.00), ('YYY8', 33875.00), ('YYY9', 20625.00), ('YYY10', 142041.67);
+select * from margine_per_prodotto;
+
